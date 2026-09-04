@@ -41,10 +41,13 @@ assignments. Shapes are sourced from each provider's actual documented format (c
 [odomojuli/regextokens](https://github.com/odomojuli/regextokens), a maintained, tested catalog), not
 guessed — every added pattern has a test proving it matches a real-shaped token and rejects a malformed one.
 
-**Risky commands the agent ran:** `rm -rf /` style destructive deletes, `curl | bash` remote code execution,
-base64-obfuscated payloads piped to a shell, fork bombs, reverse shells, recursive `chmod 777`, raw disk
-writes (`dd`/`mkfs`), shell-history tampering, firewall disabling, `authorized_keys` writes, force-pushes to
-`main`/`master`, `DROP TABLE`/`DROP DATABASE`, and crontab persistence.
+**Risky commands the agent ran:** `rm -rf /` style destructive deletes, `curl | bash`/`curl | python3` remote
+code execution, base64-obfuscated payloads piped to a shell, fork bombs, reverse and bind shells (including
+the classic Python `pty.spawn` one-liner), recursive `chmod 777`, raw disk writes (`dd`/`mkfs`), shell-history
+tampering, firewall disabling, `authorized_keys` writes, local files uploaded via `curl -F`, packages
+installed from a raw URL instead of a registry, `LD_PRELOAD` injection, `docker run --privileged`,
+plaintext git credential storage, immutable-flag tampering (`chattr`), force-pushes to `main`/`master`,
+`DROP TABLE`/`DROP DATABASE`, and crontab persistence.
 
 ## Install
 
