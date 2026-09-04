@@ -9,7 +9,7 @@ Those files are rarely audited, rarely gitignored from backups, and can sit arou
 finds what's in there before someone else does.
 
 ```
-$ npx agent-audit
+$ npx github:CrypLed/agent-audit
 
 agent-audit — scanned 59 session file(s), 3 finding(s)
 
@@ -43,15 +43,18 @@ writes (`dd`/`mkfs`), shell-history tampering, firewall disabling, `authorized_k
 ## Install
 
 ```bash
-npx agent-audit
+npx github:CrypLed/agent-audit
 ```
 
-or install globally:
+or clone and install globally:
 
 ```bash
-npm install -g agent-audit
+git clone https://github.com/CrypLed/agent-audit && cd agent-audit
+npm install -g .
 agent-audit
 ```
+
+(not yet on the npm registry — coming soon)
 
 ## Usage
 
@@ -69,7 +72,7 @@ Run it as a pre-merge gate so a transcript with a live secret or a dangerous com
 backed-up log directory unnoticed:
 
 ```yaml
-- run: npx agent-audit --fail-on critical
+- run: npx github:CrypLed/agent-audit --fail-on critical
 ```
 
 ## Why this exists
