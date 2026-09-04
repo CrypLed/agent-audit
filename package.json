@@ -19,6 +19,6 @@
     "node": ">=18"
   },
   "scripts": {
-    "test": "node --test test/scan.test.js test/scan-codex.test.js"
+    "test": "node --test test/scan.test.js test/scan-codex.test.js test/secretPatterns.test.js"
   }
 }

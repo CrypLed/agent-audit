@@ -70,7 +70,7 @@ const fixture = buildCodexFixture();
 test("codex: detects a GitHub token leaked in an assistant message", async () => {
   const result = await scan({ files: [fixture], agent: "codex" });
   const ids = result.findings.map((f) => f.id);
-  assert.ok(ids.includes("github-token"), "should detect GitHub token");
+  assert.ok(ids.includes("github-pat-classic"), "should detect GitHub token");
 });
 
 test("codex: detects curl-pipe-shell from a local_shell_call", async () => {

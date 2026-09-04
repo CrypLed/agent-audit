@@ -32,9 +32,14 @@ even to your own terminal.
 
 ## What it detects
 
-**Secrets:** AWS keys, GCP API keys, GitHub/GitLab tokens, Slack tokens, Stripe live/restricted keys, OpenAI
-and Anthropic API keys, npm tokens, Twilio keys, Discord bot tokens, PEM private key blocks, JWTs, database
-connection strings with embedded credentials, and generic `api_key=...`/`password=...` assignments.
+**Secrets:** AWS keys, Google API keys/OAuth secrets, GitHub (classic, fine-grained, OAuth) and GitLab
+tokens, Slack bot/user tokens and webhooks, Stripe secret/restricted keys, OpenAI and Anthropic API keys,
+Hugging Face and PyPI tokens, npm tokens, Twilio SIDs, SendGrid/Mailgun/Mailchimp keys, Discord bot tokens,
+Square/Shopify/Vercel/DigitalOcean/Doppler/Linear/Databricks/Heroku/Facebook tokens, PEM private key blocks,
+JWTs, database connection strings with embedded credentials, and generic `api_key=...`/`password=...`
+assignments. Shapes are sourced from each provider's actual documented format (cross-checked against
+[odomojuli/regextokens](https://github.com/odomojuli/regextokens), a maintained, tested catalog), not
+guessed — every added pattern has a test proving it matches a real-shaped token and rejects a malformed one.
 
 **Risky commands the agent ran:** `rm -rf /` style destructive deletes, `curl | bash` remote code execution,
 base64-obfuscated payloads piped to a shell, fork bombs, reverse shells, recursive `chmod 777`, raw disk

@@ -33,7 +33,7 @@ test("detects AWS key, Stripe live key, and curl-pipe-shell command", async () =
   const ids = result.findings.map((f) => f.id);
 
   assert.ok(ids.includes("aws-access-key"), "should detect AWS access key");
-  assert.ok(ids.includes("stripe-live-key"), "should detect Stripe live key");
+  assert.ok(ids.includes("stripe-secret-key"), "should detect Stripe live key");
   assert.ok(ids.includes("curl-pipe-shell"), "should detect curl|bash pattern");
 });
 
