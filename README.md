@@ -89,6 +89,16 @@ secret sprawl. `agent-audit` is a first pass at making that visible.
 - `--redact-in-place` to scrub findings from transcripts directly
 - Team/CI dashboard for aggregating findings across a fleet of developer machines (paid tier)
 
+## Support this project
+
+`agent-audit` is free and MIT-licensed, no strings attached. If it caught something useful in your logs and
+you'd like to support continued development (Codex/Cursor support, the redact-in-place flag, more patterns),
+tips are welcome via USDC/ETH on Base, Ethereum, Polygon, Arbitrum, or Optimism (same address on all):
+
+```
+0x36CCCB5854e1d513A2Af94CeaFC0f886102634e2
+```
+
 ## License
 
 MIT
