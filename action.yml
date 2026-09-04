@@ -1,0 +1,28 @@
+name: "agent-audit"
+description: "Scan AI coding agent session transcripts for leaked secrets and risky executed commands"
+author: "CrypLed"
+branding:
+  icon: "shield"
+  color: "red"
+
+inputs:
+  dir:
+    description: "Directory of *.jsonl transcripts to scan (defaults to ~/.claude/projects)"
+    required: false
+    default: ""
+  fail-on:
+    description: "Minimum severity that fails the build (critical|high|medium|low)"
+    required: false
+    default: "high"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Run agent-audit
+      shell: bash
+      run: |
+        ARGS="--fail-on ${{ inputs.fail-on }}"
+        if [ -n "${{ inputs.dir }}" ]; then
+          ARGS="$ARGS --dir ${{ inputs.dir }}"
+        fi
+        node "${{ github.action_path }}/bin/cli.js" $ARGS

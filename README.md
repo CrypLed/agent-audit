@@ -75,6 +75,14 @@ backed-up log directory unnoticed:
 - run: npx github:CrypLed/agent-audit --fail-on critical
 ```
 
+Or use it as a GitHub Action directly:
+
+```yaml
+- uses: CrypLed/agent-audit@main
+  with:
+    fail-on: critical
+```
+
 ## Why this exists
 
 Agentic coding tools are now doing real work inside real codebases — reading `.env` files, running shell
