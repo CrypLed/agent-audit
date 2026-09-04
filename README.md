@@ -1,12 +1,13 @@
 # agent-audit
 
-Scan your **Claude Code** (and soon Codex CLI / Cursor) session transcripts for secrets that leaked into
-the conversation and risky shell commands the agent actually executed.
+Scan your **Claude Code** and **Codex CLI** session transcripts for secrets that leaked into the
+conversation and risky shell commands the agent actually executed.
 
 AI coding agents read `.env` files, `cat` output that contains credentials, and run shell commands on your
-behalf — and all of that gets written verbatim into local session transcripts (`~/.claude/projects/**/*.jsonl`).
-Those files are rarely audited, rarely gitignored from backups, and can sit around for months. `agent-audit`
-finds what's in there before someone else does.
+behalf — and all of that gets written verbatim into local session transcripts (Claude Code:
+`~/.claude/projects/**/*.jsonl`, Codex CLI: `~/.codex/sessions/**/*.jsonl`). Those files are rarely audited,
+rarely gitignored from backups, and can sit around for months. `agent-audit` finds what's in there before
+someone else does. Running it with no arguments scans every known agent's default log directory at once.
 
 ```
 $ npx github:CrypLed/agent-audit
@@ -59,9 +60,11 @@ agent-audit
 ## Usage
 
 ```
-agent-audit                        Scan the default Claude Code log dir (~/.claude/projects)
-agent-audit --dir <path>           Scan a custom directory of *.jsonl transcripts
-agent-audit --file <path>          Scan one specific *.jsonl file (repeatable)
+agent-audit                        Scan every known agent's default log dir (Claude Code, Codex CLI)
+agent-audit --dir <path>           Scan a custom directory of transcripts (pair with --agent)
+agent-audit --file <path>          Scan one specific transcript file (repeatable, pair with --agent)
+agent-audit --agent <claude-code|codex>
+                                    Which parser to use with --dir/--file (default: claude-code)
 agent-audit --json                 Machine-readable output, for CI
 agent-audit --fail-on <severity>   Exit non-zero at/above this severity (default: high)
 ```
@@ -96,15 +99,17 @@ secret sprawl. `agent-audit` is a first pass at making that visible.
 
 ## Roadmap
 
-- Codex CLI and Cursor transcript formats
+- Cursor transcript format (stored in SQLite, not JSONL — needs a different approach; not shipped yet
+  because it can't be verified against a real installation without one on hand, and a security tool that
+  silently finds nothing is worse than one that's honest about not supporting a platform yet)
 - `--redact-in-place` to scrub findings from transcripts directly
 - Team/CI dashboard for aggregating findings across a fleet of developer machines (paid tier)
 
 ## Support this project
 
 `agent-audit` is free and MIT-licensed, no strings attached. If it caught something useful in your logs and
-you'd like to support continued development (Codex/Cursor support, the redact-in-place flag, more patterns),
-tips are welcome via USDC/ETH on Base, Ethereum, Polygon, Arbitrum, or Optimism (same address on all):
+you'd like to support continued development (Cursor support, the redact-in-place flag, more patterns), tips
+are welcome via USDC/ETH on Base, Ethereum, Polygon, Arbitrum, or Optimism (same address on all):
 
 ```
 0x36CCCB5854e1d513A2Af94CeaFC0f886102634e2

@@ -1,7 +1,7 @@
 {
   "name": "agent-audit",
-  "version": "0.1.0",
-  "description": "Scan Claude Code / Codex CLI / Cursor session transcripts for leaked secrets and risky commands the AI agent executed.",
+  "version": "0.2.0",
+  "description": "Scan Claude Code and Codex CLI session transcripts for leaked secrets and risky commands the AI agent executed.",
   "keywords": ["claude-code", "codex", "cursor", "ai-agent", "security", "secrets", "audit", "devsecops"],
   "license": "MIT",
   "bin": {
@@ -19,6 +19,6 @@
     "node": ">=18"
   },
   "scripts": {
-    "test": "node --test test/scan.test.js"
+    "test": "node --test test/scan.test.js test/scan-codex.test.js"
   }
 }

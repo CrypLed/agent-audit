@@ -1,29 +1,32 @@
 #!/usr/bin/env node
 "use strict";
 
-const path = require("path");
-const { scan, textReport, jsonReport, defaultLogDir } = require("../lib");
+const { scan, textReport, jsonReport, AGENTS } = require("../lib");
 
 function parseArgs(argv) {
-  const args = { dir: null, files: [], json: false, help: false, failOn: "high" };
+  const args = { dir: null, files: [], json: false, help: false, failOn: "high", agent: null };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     if (a === "--json") args.json = true;
     else if (a === "--dir") args.dir = argv[++i];
     else if (a === "--file") args.files.push(argv[++i]);
     else if (a === "--fail-on") args.failOn = argv[++i];
+    else if (a === "--agent") args.agent = argv[++i];
     else if (a === "--help" || a === "-h") args.help = true;
   }
   return args;
 }
 
 function printHelp() {
+  const agentIds = AGENTS.map((a) => a.id).join("|");
   console.log(`agent-audit — scan AI coding agent session transcripts for leaked secrets and risky commands
 
 Usage:
-  agent-audit [scan]                Scan default Claude Code log dir (~/.claude/projects)
-  agent-audit --dir <path>          Scan a custom directory of *.jsonl transcripts
-  agent-audit --file <path>         Scan one specific *.jsonl file (repeatable)
+  agent-audit [scan]                Scan every known agent's default log dir (Claude Code, Codex CLI)
+  agent-audit --dir <path>          Scan a custom directory of transcripts (requires --agent)
+  agent-audit --file <path>         Scan one specific transcript file (repeatable, requires --agent)
+  agent-audit --agent <${agentIds}>
+                                     Which parser to use with --dir/--file (default: claude-code)
   agent-audit --json                Output findings as JSON (for CI / tooling)
   agent-audit --fail-on <severity>  Exit non-zero if a finding >= severity exists
                                      (critical|high|medium|low, default: high)
@@ -48,14 +51,15 @@ async function main() {
   }
 
   try {
-    const result = await scan({ dir: args.dir, files: args.files });
+    const result = await scan({ dir: args.dir, files: args.files, agent: args.agent });
 
     if (args.json) {
       console.log(jsonReport(result));
     } else {
       console.log(textReport(result));
       if (!args.dir && !args.files.length) {
-        console.log(`\n(scanned default log directory: ${defaultLogDir()})`);
+        const dirs = AGENTS.map((a) => `${a.label}: ${a.defaultLogDir()}`).join("; ");
+        console.log(`\n(scanned default log directories — ${dirs})`);
       }
     }
 
