@@ -93,6 +93,13 @@ commands, calling internal APIs — and every one of those actions is being logg
 design (so you can resume sessions and so the agent has memory). That's a new, mostly-unaudited class of
 secret sprawl. `agent-audit` is a first pass at making that visible.
 
+**vs. GitHub's MCP-server secret scanning:** GitHub has a preview feature that scans your *current code
+changes* for secrets on-demand, before a commit/PR, via an MCP tool call — different surface, and it
+requires GitHub Secret Protection (paid) plus an explicit invocation each time. `agent-audit` scans the
+*session transcript retroactively* — catching secrets that passed through the conversation (e.g. `cat .env`
+output, an API response) without ever touching a committed file — and also flags risky commands the agent
+executed, which that feature doesn't cover. Free, local, no setup, complementary rather than overlapping.
+
 ## Privacy
 
 100% local. No network calls, no telemetry, nothing leaves your machine. Read the source — it's ~300 lines.
