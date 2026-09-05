@@ -122,6 +122,8 @@ executed, which that feature doesn't cover. Free, local, no setup, complementary
 
 ## Support this project
 
+Need something like this built for your own codebase/workflow? [I take on paid automation work](https://crypled.github.io/hire-page/) — same process, real proof of work.
+
 `agent-audit` is free and MIT-licensed, no strings attached. If it caught something useful in your logs and
 you'd like to support continued development (Cursor support, the redact-in-place flag, more patterns), tips
 are welcome via USDC/ETH on Base, Ethereum, Polygon, Arbitrum, or Optimism (same address on all):
