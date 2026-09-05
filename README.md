@@ -9,6 +9,13 @@ behalf — and all of that gets written verbatim into local session transcripts 
 rarely gitignored from backups, and can sit around for months. `agent-audit` finds what's in there before
 someone else does. Running it with no arguments scans every known agent's default log directory at once.
 
+**If you build on Ethereum/EVM chains, this matters more than usual.** A leaked API key is a bad day; a
+seed phrase or private key that passed through an agent's session — from a `.env` cat, a debug print, a
+"here's my wallet for testing" — is funds gone, no recourse, no support ticket to file. `agent-audit`
+checks for that specifically: real BIP-39 wallet mnemonics (validated against the actual 2048-word spec
+list, not a guess) and Ethereum private keys, alongside Infura/Alchemy RPC URLs with embedded project keys.
+It also knows about Hardhat's famous public default test mnemonic and won't cry wolf over it.
+
 ```
 $ npx github:CrypLed/agent-audit
 
@@ -40,6 +47,14 @@ JWTs, database connection strings with embedded credentials, and generic `api_ke
 assignments. Shapes are sourced from each provider's actual documented format (cross-checked against
 [odomojuli/regextokens](https://github.com/odomojuli/regextokens), a maintained, tested catalog), not
 guessed — every added pattern has a test proving it matches a real-shaped token and rejects a malformed one.
+
+**Web3-specific:** crypto wallet seed phrases (BIP-39 mnemonics, checked word-by-word against the real
+2048-word spec list — not a fuzzy guess, since a valid mnemonic is by definition 100% real wordlist words),
+Ethereum private keys (gated on nearby context like `privateKey:`, since a bare 64-hex-char string is
+indistinguishable from an ordinary transaction hash otherwise), and Infura/Alchemy RPC URLs with embedded
+project keys. Hardhat's well-known public default test mnemonic is recognized and reported as informational
+rather than critical, since it controls no real funds by design and flagging it as a leak would just be
+noise for the majority of Ethereum projects that use it locally.
 
 **Risky commands the agent ran:** `rm -rf /` style destructive deletes, `curl | bash`/`curl | python3` remote
 code execution, base64-obfuscated payloads piped to a shell, fork bombs, reverse and bind shells (including
